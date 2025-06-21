@@ -38,8 +38,8 @@ This project demonstrates a smart parking system using an ESP32 NodeMCU. The sys
 - Servo motor control via `ESP32Servo`
 
 ---
-![System Architecture](images/Hardware_Architecture.png)
-![Model](images/Model.jpg)
+![System Architecture](assets/Hardware_Architecture.png)
+![Model](assets/Model.jpg)
 
 ## 🛠️ Setup Instructions
 

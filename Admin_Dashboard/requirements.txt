@@ -1,0 +1,7 @@
+streamlit
+paho-mqtt
+mysql-connector-python
+pandas
+geopandas
+matplotlib
+plotly
