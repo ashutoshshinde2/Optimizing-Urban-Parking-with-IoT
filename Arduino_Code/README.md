@@ -158,7 +158,7 @@ When this message is received:
 
 ```bash
 mosquitto_pub -h <broker_ip> -t esp32/gate/control -m "open"
-
+```
 ### 🧭 System Architecture
 
 [ IR Sensors ] → [ ESP32 NodeMCU ] → [ MQTT Broker ] ← [ Web Server / App ]
