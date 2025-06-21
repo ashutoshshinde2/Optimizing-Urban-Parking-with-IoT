@@ -1,0 +1,12 @@
+streamlit
+mysql-connector-python
+pandas
+
+Admin
+source myenv/bin/activate 
+streamlit run smart_parking_dashboard/home.py
+
+client
+source venv/bin/activate
+nohup python manage.py runserver 0.0.0.0:8000 &
+tail -f nohup.out
