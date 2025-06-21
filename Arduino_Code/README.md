@@ -38,10 +38,12 @@ This project demonstrates a smart parking system using an ESP32 NodeMCU. The sys
 - Servo motor control via `ESP32Servo`
 
 ---
+![System Architecture](images/Hardware_Architecture.png)
+![Model](images/Model.jpg)
 
 ## 🛠️ Setup Instructions
 
-### 1️⃣ Configure WiFi
+### 🛜 Configure WiFi
 
 Edit the following lines in the code:
 
@@ -194,4 +196,4 @@ mosquitto_pub -h <broker_ip> -t esp32/gate/control -m "open"
 
 > ✅ This modular architecture makes it easy to scale across multiple parking nodes or integrate with cloud-based dashboards and databases.
 
-![System Architecture](images/Hardware_Architecture.png)
+
