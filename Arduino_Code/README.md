@@ -63,6 +63,8 @@ const int mqtt_port = 1883;
 const char* mqtt_topic_publish = "esp32/parking";
 const char* mqtt_topic_subscribe = "esp32/gate/control";
 
+```
+
 ### 🔌 ESP32 Pin Configuration
 
 The following table shows how each component is connected to the ESP32 NodeMCU:
