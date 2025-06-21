@@ -1,4 +1,4 @@
-# 🚗 Smart Parking System – Complete Project
+# 🚗 STREAMPARK: IOT AND CLOUD FRAMEWORK FOR EFFICIENT PARKING SPACE UTILIZATION
 
 This repository contains a complete implementation of a **Smart Parking System**, including an Admin Dashboard, User Dashboard, Arduino Code, and MySQL database schema. The system leverages **IoT + Web + MQTT** to manage parking availability, booking, and gate access in real time.
 
@@ -178,7 +178,7 @@ SOURCE SmartParkingSys.sql;
 
 ## 🎥 Demo Video
 
-> Replace `https://youtu.be/gOFd1jHfPcI` with your actual YouTube video ID.
+> 🎬 Watch the full system demo on YouTube. This video demonstrates the full working of the Smart Parking System from device to dashboards. https://www.youtube.com/watch?v=gOFd1jHfPcI
 
 ---
 
