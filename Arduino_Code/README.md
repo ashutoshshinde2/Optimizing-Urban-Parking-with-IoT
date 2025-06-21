@@ -48,7 +48,7 @@ Edit the following lines in the code:
 ```cpp
 #define WIFI_SSID "YourSSID"
 #define WIFI_PASSWORD "YourPassword"
-
+```
 ### 📡 MQTT Broker Setup
 
 To enable communication between the ESP32 and other services (like a web server), you need to configure an MQTT broker.
