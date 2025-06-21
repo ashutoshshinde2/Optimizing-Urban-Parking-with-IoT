@@ -194,3 +194,4 @@ mosquitto_pub -h <broker_ip> -t esp32/gate/control -m "open"
 
 > ✅ This modular architecture makes it easy to scale across multiple parking nodes or integrate with cloud-based dashboards and databases.
 
+![System Architecture](images/Hardware Architecture.png)
