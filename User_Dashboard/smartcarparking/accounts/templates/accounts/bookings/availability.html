@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-gradient-to-br from-blue-100 to-purple-200">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Slot Availability - Phoenix Marketcity</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+</head>
+<body class="font-sans antialiased" x-data="availabilityPage()">
+
+  <!-- Header -->
+  <div class="bg-white/80 backdrop-blur shadow-lg p-4 flex justify-between items-center">
+    <h1 class="text-3xl font-extrabold text-purple-800 animate-pulse">Select a Slot</h1>
+    <a href="bookings.html" class="text-purple-700 hover:underline">Back to Booking</a>
+  </div>
+
+  <!-- Slot Layout -->
+  <div class="max-w-4xl mx-auto mt-8 p-6 bg-white/90 rounded-lg shadow-lg animate-fadeIn">
+    <h2 class="text-2xl font-bold text-purple-700 mb-6">Phoenix Marketcity - Slot Availability</h2>
+    <div class="grid grid-cols-3 gap-6">
+      <template x-for="(slot, index) in slots" :key="index">
+        <div
+          :class="{
+            'bg-green-400': !slot.booked,
+            'bg-red-400': slot.booked,
+            'cursor-pointer': !slot.booked
+          }"
+          class="rounded-xl p-4 text-center font-semibold text-white transition-all duration-300 ease-in-out hover:scale-105"
+          @click="selectSlot(index)"
+        >
+          Slot <span x-text="index + 1"></span><br>
+          <span x-text="slot.booked ? 'Booked' : 'Available'"></span>
+        </div>
+      </template>
+    </div>
+
+    <!-- Confirm Booking -->
+    <div x-show="selectedSlot !== null" class="mt-8 text-center">
+      <p class="text-lg text-purple-800 font-semibold mb-4">Selected Slot: <span x-text="selectedSlot + 1"></span></p>
+      <button @click="confirmBooking" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition">Confirm Booking</button>
+    </div>
+
+    <!-- Success Message -->
+    <p x-show="bookingSuccess" class="mt-4 text-green-600 font-medium">Booking Confirmed! Redirecting...</p>
+  </div>
+
+  <script>
+    function availabilityPage() {
+      return {
+        slots: [
+          { booked: false },
+          { booked: true },
+          { booked: false }
+        ],
+        selectedSlot: null,
+        bookingSuccess: false,
+
+        selectSlot(index) {
+          if (this.slots[index].booked) return;
+          this.selectedSlot = index;
+        },
+
+        confirmBooking() {
+          if (this.selectedSlot === null) return;
+          this.slots[this.selectedSlot].booked = true;
+          this.bookingSuccess = true;
+          setTimeout(() => {
+            window.location.href = 'confirmation.html';
+          }, 1500);
+        }
+      };
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-gradient-to-br from-blue-100 to-purple-200">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book a Parking Slot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/@alpinejs/collapse@3.10.3/dist/cdn.min.js" defer></script>
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <style>
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity 0.5s;
+    }
+    .fade-enter-from, .fade-leave-to {
+      opacity: 0;
+    }
+    .shake {
+      animation: shake 0.4s;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased" x-data="bookingApp()">
+
+  <!-- Header -->
+  <div class="bg-white/80 backdrop-blur shadow-lg p-4 flex justify-between items-center">
+    <h1 class="text-3xl font-extrabold text-purple-800 animate-pulse">Book Parking</h1>
+    <div class="relative">
+      <img @click="toggleDropdown" src="https://via.placeholder.com/40" alt="Profile"
+        class="w-10 h-10 rounded-full border-2 border-purple-400 cursor-pointer" />
+      <div x-show="dropdownOpen" @click.outside="dropdownOpen = false"
+        class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50">
+        <div class="px-4 py-3 text-sm text-gray-700">
+          <div class="font-medium">Akshay Umbarge</div>
+          <div class="text-xs">akshay@example.com</div>
+        </div>
+        <ul class="py-2">
+          <li><a href="#" class="block px-4 py-2 hover:bg-purple-100">Dashboard</a></li>
+          <li><a href="#" class="block px-4 py-2 hover:bg-purple-100">Settings</a></li>
+          <li><a href="#" class="block px-4 py-2 hover:bg-purple-100">Earnings</a></li>
+        </ul>
+        <div class="border-t">
+          <a href="#" class="block px-4 py-2 text-red-600 hover:bg-purple-100">Sign out</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Booking Form -->
+  <div class="max-w-4xl mx-auto bg-white/80 backdrop-blur mt-10 p-6 rounded-lg shadow-xl">
+    <form method="POST" @submit.prevent="submitForm" :class="{'shake': shakeForm}" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {% csrf_token %}
+      <div>
+        <label class="block text-sm font-semibold text-purple-700">Location</label>
+        <input type="text" x-model="location" @input="checkLocation"
+          placeholder="Enter city (e.g. Pune)"
+          class="w-full mt-1 p-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-purple-700">Vehicle Type</label>
+        <select x-model="vehicleType"
+          class="w-full mt-1 p-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+          <option value="Car">Car</option>
+          <option value="Bike">Bike</option>
+          <option value="Truck">Truck</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-purple-700">Start Date & Time</label>
+        <input type="datetime-local" x-model="startTime"
+          class="w-full mt-1 p-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-purple-700">End Date & Time</label>
+        <input type="datetime-local" x-model="endTime" @change="calculatePrice"
+          class="w-full mt-1 p-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
+      </div>
+
+      <div class="md:col-span-2 text-right">
+        <p class="mb-2 text-purple-700">Estimated Price: <span class="font-semibold">Rs. <span x-text="price"></span></span></p>
+        <button type="submit"
+          class="bg-purple-600 text-white px-6 py-2 rounded-md hover:bg-purple-700 transition duration-300">
+          Check Availability
+        </button>
+      </div>
+    </form>
+    <p class="text-green-600 mt-4" x-show="successMessage" x-text="successMessage"></p>
+  </div>
+
+  <!-- Slot Cards (Only for Pune) -->
+  <div class="max-w-4xl mx-auto mt-10 space-y-6" x-show="showCards" x-transition>
+    <template x-for="(slot, index) in slots" :key="index">
+      <div class="bg-white shadow-md rounded-lg p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <img :src="slot.image" alt="Parking" class="w-28 h-20 rounded-md object-cover" />
+          <div>
+            <h2 class="text-lg font-bold text-purple-800" x-text="slot.name"></h2>
+            <p class="text-sm text-gray-600" x-text="slot.rating"></p>
+            <p class="text-sm text-gray-600" x-text="slot.address"></p>
+          </div>
+        </div>
+        <div class="text-right">
+          <a href="availability.html">
+            <button class="mt-2 bg-purple-500 text-white px-4 py-2 rounded-md hover:bg-purple-600 transition">
+              Book Now
+            </button>
+          </a>
+        </div>
+      </div>
+    </template>
+  </div>
+
+  <script>
+    function bookingApp() {
+      return {
+        dropdownOpen: false,
+        location: '',
+        vehicleType: 'Car',
+        startTime: '',
+        endTime: '',
+        price: 0,
+        showCards: false,
+        successMessage: '',
+        shakeForm: false,
+        slots: [
+          {
+            name: 'Phoenix Marketcity Pune',
+            image: 'Phoenix Marketcity.jpg',
+            rating: '8 Km Away · ⭐ 4.8',
+            address: 'Phoenix Marketcity, Viman Nagar, Pune, Maharashtra'
+          },
+          {
+            name: 'Seasons Mall Pune',
+            image: 'Seasons Mall.jpg',
+            rating: '6 Km Away · ⭐ 4.5',
+            address: 'Magarpatta, Hadapsar, Pune, Maharashtra'
+          },
+          {
+            name: 'Amanora Mall Pune',
+            image: 'https://ak.jogurucdn.com/media/image/p14/place-2014-09-06-12-584a8b8670acd4513d86eb2e0c457c77.jpg',
+            rating: '10 Km Away · ⭐ 4.4',
+            address: 'Amanora Park Town, Hadapsar, Pune, Maharashtra'
+          }
+        ],
+
+        toggleDropdown() {
+          this.dropdownOpen = !this.dropdownOpen;
+        },
+
+        checkLocation() {
+          this.showCards = this.location.trim().toLowerCase() === 'pune';
+        },
+
+        calculatePrice() {
+          if (!this.startTime || !this.endTime) return;
+          const start = new Date(this.startTime);
+          const end = new Date(this.endTime);
+          const hours = Math.max(Math.ceil((end - start) / (1000 * 60 * 60)), 1);
+          this.price = hours * 30;
+        },
+
+        submitForm() {
+          if (!this.location || !this.vehicleType || !this.startTime || !this.endTime) {
+            this.successMessage = "Please fill out all fields.";
+            this.shakeForm = true;
+            setTimeout(() => this.shakeForm = false, 700);
+            return;
+          }
+
+          fetch('/bookings/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: `location=${encodeURIComponent(this.location)}&vehicleType=${encodeURIComponent(this.vehicleType)}&startTime=${encodeURIComponent(this.startTime)}&endTime=${encodeURIComponent(this.endTime)}`
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === 'success') {
+              this.price = data.price || this.price;
+              this.successMessage = "Slots available! Scroll down to view options.";
+              this.showCards = true;
+            } else {
+              this.successMessage = "Error: " + data.message;
+            }
+          });
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>

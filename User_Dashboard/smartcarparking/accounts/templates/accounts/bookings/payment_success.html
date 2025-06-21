@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment Successful</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(145deg, #f0f0f0, #dcdcdc);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .success-container {
+      text-align: center;
+      padding: 30px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .checkmark {
+      font-size: 70px;
+      color: #4CAF50;
+      animation: popIn 0.6s ease-in-out;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .sub-message {
+      font-size: 16px;
+      color: #666;
+      margin-top: 10px;
+      margin-bottom: 30px;
+    }
+
+    .qr-section {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    canvas {
+      border: 2px dashed #ccc;
+      padding: 10px;
+      border-radius: 12px;
+      background-color: #fff;
+    }
+
+    @media screen and (max-width: 600px) {
+      .message {
+        font-size: 20px;
+      }
+      .sub-message {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="success-container">
+    <div class="checkmark">✅</div>
+    <div class="message">Payment Successful!</div>
+    <div class="sub-message">Your booking is confirmed. Show this QR at the gate for entry.</div>
+    <div class="qr-section">
+      <canvas id="qrcode"></canvas>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script>
+    const bookingInfo = {
+      name: "John Doe",
+      bookingId: "BK123456",
+      date: "2025-04-15",
+      time: "10:30 AM",
+      slot: "A12"
+    };
+
+    QRCode.toCanvas(document.getElementById('qrcode'), JSON.stringify(bookingInfo), { width: 200 }, function (error) {
+      if (error) console.error(error);
+    });
+
+    setTimeout(() => {
+      window.location.href = "gate-entry.html"; // Redirect after 7 seconds
+    }, 7000);
+  </script>
+</body>
+</html>

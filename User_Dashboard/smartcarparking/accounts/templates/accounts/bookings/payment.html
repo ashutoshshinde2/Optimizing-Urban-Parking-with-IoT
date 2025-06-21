@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment - Smart Parking</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/alpinejs" defer></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-white shadow-md p-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-blue-700">Smart Parking System</h1>
+    <nav class="space-x-4">
+      <a href="/bookings" class="text-gray-700 hover:text-blue-600">Bookings</a>
+      <a href="/logout" class="text-red-600 hover:text-red-800">Logout</a>
+    </nav>
+  </header>
+
+  <!-- Main -->
+  <main class="flex-grow flex items-center justify-center p-6">
+    <div class="bg-white shadow-lg rounded-2xl p-8 w-full max-w-2xl transition-all duration-300 transform hover:scale-[1.01]" x-data="{ selected: 'card' }">
+      <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Choose Payment Method</h2>
+
+      <!-- Tabs -->
+      <div class="flex justify-center space-x-4 mb-6">
+        <button @click="selected = 'card'" :class="selected === 'card' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-800'" class="px-4 py-2 rounded-full font-semibold">Card</button>
+        <button @click="selected = 'upi'" :class="selected === 'upi' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-800'" class="px-4 py-2 rounded-full font-semibold">UPI</button>
+        <button @click="selected = 'qr'" :class="selected === 'qr' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-800'" class="px-4 py-2 rounded-full font-semibold">QR Code</button>
+      </div>
+
+      <!-- Card Payment -->
+      <form x-show="selected === 'card'" action="payment_success.html" method="POST" class="space-y-4" x-transition>
+        <div>
+          <label class="block text-gray-700">Card Number</label>
+          <input type="text" placeholder="1234 5678 9012 3456" required class="w-full p-2 border rounded-lg"/>
+        </div>
+        <div class="flex space-x-4">
+          <div class="w-1/2">
+            <label class="block text-gray-700">Expiry</label>
+            <input type="text" placeholder="MM/YY" required class="w-full p-2 border rounded-lg"/>
+          </div>
+          <div class="w-1/2">
+            <label class="block text-gray-700">CVV</label>
+            <input type="text" placeholder="123" required class="w-full p-2 border rounded-lg"/>
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-700">Card Holder Name</label>
+          <input type="text" required class="w-full p-2 border rounded-lg"/>
+        </div>
+        <button type="submit" class="w-full mt-4 bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition">Pay ₹100</button>
+      </form>
+
+      <!-- UPI Payment -->
+      <div x-show="selected === 'upi'" x-transition class="space-y-4">
+        <p class="text-center text-gray-700">Use your UPI app to send ₹100</p>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="p-4 border rounded-lg text-center hover:shadow-md cursor-pointer">
+            <img src="https://animationvisarts.com/wp-content/uploads/2023/11/Frame-43-1.png" alt="GPay" class="h-10 mx-auto mb-2">
+            <p class="text-gray-700">GPay</p>
+            <p class="text-sm text-gray-500">example@upi</p>
+          </div>
+          <div class="p-4 border rounded-lg text-center hover:shadow-md cursor-pointer">
+            <img src="https://i.pinimg.com/736x/db/42/53/db4253052cfc0f80ac281486c19f9d57.jpg" alt="PhonePe" class="h-10 mx-auto mb-2">
+            <p class="text-gray-700">PhonePe</p>
+            <p class="text-sm text-gray-500">example@upi</p>
+          </div>
+        </div>
+        <form action="payment_success.html" method="POST" class="space-y-4">
+          <div>
+            <label class="block text-gray-700">Enter Your UPI ID</label>
+            <input type="text" name="upi_id" placeholder="yourname@upi" required class="w-full p-2 border rounded-lg" />
+          </div>
+        </form>
+        <form action="payment_success.html" method="POST">
+          <button type="submit" class="w-full mt-4 bg-green-600 text-white font-semibold py-2 rounded-lg hover:bg-green-700 transition">Mark as Paid</button>
+        </form>
+      </div>
+
+      <!-- QR Code Payment -->
+      <div x-show="selected === 'qr'" x-transition class="text-center space-y-4">
+        <p class="text-gray-700">Scan or click the QR to pay ₹100</p>
+        <a href="https://pay.example.com" target="_blank">
+          <img src="QR payment.jpg" alt="Pay QR" class="mx-auto border rounded-lg hover:shadow-lg hover:scale-105 transition"/>
+        </a>
+        <form action="/accounts/bookings/payment_success.html" method="POST">
+          <button type="submit" class="w-full mt-4 bg-green-600 text-white font-semibold py-2 rounded-lg hover:bg-green-700 transition">Payment Done</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center py-4 bg-white border-t mt-6">
+    <p class="text-gray-500 text-sm">&copy; 2025 Smart Parking System</p>
+  </footer>
+</body>
+</html>

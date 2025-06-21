@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .shake {
+            animation: shake 0.5s;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-900">
+    <div class="flex flex-col md:flex-row w-full max-w-6xl shadow-xl rounded-xl overflow-hidden">
+        <!-- Left Panel -->
+        <div class="hidden md:flex flex-col justify-center items-center w-1/2 bg-gradient-to-b from-purple-600 to-black p-10 text-white">
+            <h2 class="text-3xl font-bold mb-4 fade-in">parkKaro</h2>
+            <p class="text-center fade-in">Welcome Back Friend</p>
+            <ul class="mt-6 space-y-4 fade-in">
+                <li class="flex items-center space-x-2"><span class="bg-white text-black px-3 py-1 rounded-full">1</span> <span>Sign in your account</span></li>
+                <li class="flex items-center space-x-2 opacity-50"><span class="bg-gray-600 text-white px-3 py-1 rounded-full">2</span> <span>Set up your workspace</span></li>
+                <li class="flex items-center space-x-2 opacity-50"><span class="bg-gray-600 text-white px-3 py-1 rounded-full">3</span> <span>Set up your profile</span></li>
+            </ul>
+        </div>
+        
+        <!-- Right Panel -->
+        <div class="w-full md:w-1/2 p-10 bg-gray-800 text-white">
+            <h2 class="text-2xl font-bold mb-6 fade-in">Sign In Account</h2>
+            <p class="text-gray-400 fade-in">Enter your personal data to Login.</p>
+            <br>
+            <form id="loginForm" class="space-y-4 fade-in" method="POST">
+                <!-- CSRF Token for security -->
+                {% csrf_token %}
+                <input type="email" name="email" placeholder="Email" class="w-full px-4 py-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                <input type="password" name="password" placeholder="Enter your password" class="w-full px-4 py-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required minlength="8">
+                <p class="text-xs text-gray-400">Must be at least 8 characters.</p>
+                <button type="submit" class="w-full py-2 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition duration-300">Sign In</button>
+            </form>
+
+            <!-- Error Messages -->
+            {% if messages %}
+                <div class="mt-4">
+                    {% for message in messages %}
+                        <div class="text-red-500 text-sm text-center p-2 rounded {% if message.tags %}{{ message.tags }}{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <p class="text-gray-400 mt-4 text-center">Create Your Account <a href="{% url 'signup' %}" class="text-purple-400 hover:underline">Sign Up</a></p>
+        </div>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.getElementById('loginForm');
+        
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            const submitBtn = loginForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Authenticating...';
+            
+            // Submit form normally (Django will handle redirect)
+            loginForm.submit();
+        });
+        
+        // Check for error messages and animate if present
+        const errorMessages = document.querySelector('.text-red-500');
+        if (errorMessages) {
+            loginForm.classList.add('shake');
+            setTimeout(() => {
+                loginForm.classList.remove('shake');
+            }, 500);
+        }
+    });
+    </script>
+</body>
+</html>

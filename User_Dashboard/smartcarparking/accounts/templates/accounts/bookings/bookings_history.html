@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-gradient-to-br from-blue-100 to-purple-200">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Booking History</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/alpinejs" defer></script>
+  <style>
+    .fadeIn {
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased" x-data="historyPage()">
+
+  <!-- Header -->
+  <div class="bg-white/90 backdrop-blur shadow-md p-4 flex justify-between items-center">
+    <h1 class="text-3xl font-bold text-purple-800 animate-pulse">Booking History</h1>
+    <div class="relative">
+      <img @click="dropdownOpen = !dropdownOpen" src="https://via.placeholder.com/40" alt="Profile"
+        class="w-10 h-10 rounded-full border-2 border-purple-400 cursor-pointer">
+      <div x-show="dropdownOpen" @click.outside="dropdownOpen = false"
+        class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 fadeIn">
+        <div class="px-4 py-3 text-sm text-gray-700">
+          <div class="font-medium">Akshay Umbarge</div>
+          <div class="text-xs">akshay@example.com</div>
+        </div>
+        <ul class="py-2">
+          <li><a href="#" class="block px-4 py-2 hover:bg-purple-100">Dashboard</a></li>
+          <li><a href="#" class="block px-4 py-2 hover:bg-purple-100">Settings</a></li>
+          <li><a href="#" class="block px-4 py-2 hover:bg-purple-100">Earnings</a></li>
+        </ul>
+        <div class="border-t">
+          <a href="#" class="block px-4 py-2 text-red-600 hover:bg-purple-100">Sign out</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Booking Cards -->
+  <div class="max-w-5xl mx-auto mt-10 px-4 md:px-0 space-y-6">
+    <template x-for="booking in bookings" :key="booking.id">
+      <div class="bg-white/90 backdrop-blur p-6 rounded-lg shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4 fadeIn">
+        <div class="flex-1">
+          <h2 class="text-xl font-bold text-purple-800" x-text="booking.place"></h2>
+          <p class="text-sm text-gray-600 mt-1">Vehicle: <span x-text="booking.vehicle"></span></p>
+          <p class="text-sm text-gray-600">From: <span x-text="booking.start"></span></p>
+          <p class="text-sm text-gray-600">To: <span x-text="booking.end"></span></p>
+          <p class="text-sm text-gray-600">Price: ₹<span x-text="booking.price"></span></p>
+        </div>
+        <div class="mt-4 md:mt-0">
+          <span class="inline-block px-4 py-1 text-sm font-semibold rounded-full"
+                :class="{
+                  'bg-yellow-100 text-yellow-700': booking.status === 'Pending',
+                  'bg-green-100 text-green-700': booking.status === 'Confirmed',
+                  'bg-red-100 text-red-700': booking.status === 'Cancelled',
+                  'bg-blue-100 text-blue-700': booking.status === 'Completed'
+                }"
+                x-text="booking.status">
+          </span>
+        </div>
+      </div>
+    </template>
+
+    <div x-show="bookings.length === 0" class="text-center text-gray-600 text-lg fadeIn">
+      No bookings found.
+    </div>
+  </div>
+
+  <script>
+    function historyPage() {
+      return {
+        dropdownOpen: false,
+        bookings: [
+          {
+            id: 1,
+            place: "Phoenix Marketcity Pune",
+            vehicle: "Car",
+            start: "2024-04-10 10:00 AM",
+            end: "2024-04-10 2:00 PM",
+            price: 120,
+            status: "Confirmed"
+          },
+          {
+            id: 2,
+            place: "Amanora Mall",
+            vehicle: "Bike",
+            start: "2024-04-02 3:00 PM",
+            end: "2024-04-02 5:00 PM",
+            price: 60,
+            status: "Completed"
+          },
+          {
+            id: 3,
+            place: "Seasons Mall",
+            vehicle: "Car",
+            start: "2024-04-01 8:00 AM",
+            end: "2024-04-01 12:00 PM",
+            price: 100,
+            status: "Cancelled"
+          }
+        ]
+      }
+    }
+  </script>
+
+</body>
+</html>

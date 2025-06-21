@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-900">
+    <div class="flex flex-col md:flex-row w-full max-w-6xl shadow-xl rounded-xl overflow-hidden">
+        
+        <!-- Left Panel -->
+        <div class="hidden md:flex flex-col justify-center items-center w-1/2 bg-gradient-to-b from-purple-600 to-black p-10 text-white">
+            <h2 class="text-3xl font-bold mb-4 fade-in">parkKaro</h2>
+            <p class="text-center fade-in">Complete these easy steps to register your account.</p>
+            <ul class="mt-6 space-y-4 fade-in">
+                <li class="flex items-center space-x-2"><span class="bg-white text-black px-3 py-1 rounded-full">1</span> <span>Sign up your account</span></li>
+                <li class="flex items-center space-x-2 opacity-50"><span class="bg-gray-600 text-white px-3 py-1 rounded-full">2</span> <span>Set up your workspace</span></li>
+                <li class="flex items-center space-x-2 opacity-50"><span class="bg-gray-600 text-white px-3 py-1 rounded-full">3</span> <span>Set up your profile</span></li>
+            </ul>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="w-full md:w-1/2 p-10 bg-gray-800 text-white">
+            <h2 class="text-2xl font-bold mb-6 fade-in">Sign Up Account</h2>
+            <p class="text-gray-400 fade-in mb-4">Enter your personal data to create your account.</p>
+
+            <!-- Show error if present -->
+            {% if error %}
+                <p class="text-red-400 mb-4">{{ error }}</p>
+            {% endif %}
+
+            <form method="POST" action="{% url 'signup' %}" class="space-y-4 fade-in">
+                {% csrf_token %}
+                
+                <div class="flex space-x-4">
+                    <input type="text" name="first_name" placeholder="First Name" class="w-1/2 px-4 py-2 bg-gray-700 rounded-lg" required>
+                    <input type="text" name="last_name" placeholder="Last Name" class="w-1/2 px-4 py-2 bg-gray-700 rounded-lg" required>
+                </div>
+
+                <input type="text" name="mobileno" placeholder="Mobile Number" class="w-full px-4 py-2 bg-gray-700 rounded-lg" required>
+
+
+                <input type="email" name="email" placeholder="Email" class="w-full px-4 py-2 bg-gray-700 rounded-lg" required>
+
+                <input type="password" name="password" placeholder="Enter your password" class="w-full px-4 py-2 bg-gray-700 rounded-lg" required>
+
+                <input type="password" name="confirm_password" placeholder="Confirm Password" class="w-full px-4 py-2 bg-gray-700 rounded-lg" required>
+
+                <p class="text-xs text-gray-400">Must be at least 8 characters.</p>
+
+                <button type="submit" class="w-full py-2 bg-white text-black font-bold rounded-lg hover:bg-gray-300">Sign Up</button>
+            </form>
+
+            <p class="text-gray-400 mt-4 text-center">Already have an account? 
+                <a href="/login/" class="text-white underline">Log in</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

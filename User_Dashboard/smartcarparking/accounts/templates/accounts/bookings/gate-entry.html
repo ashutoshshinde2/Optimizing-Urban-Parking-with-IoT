@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gate Entry</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #e0eafc, #cfdef3);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .gate-icon {
+      font-size: 60px;
+      color: #4CAF50;
+      animation: zoomIn 0.6s ease-in-out;
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .message {
+      font-size: 28px;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .sub-text {
+      font-size: 16px;
+      margin-top: 10px;
+      color: #666;
+    }
+
+    .btn {
+      margin-top: 30px;
+      padding: 12px 25px;
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #43a047;
+    }
+
+    @media (max-width: 600px) {
+      .message {
+        font-size: 22px;
+      }
+      .sub-text {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="gate-icon">🚪✅</div>
+    <div class="message">Gate Opened Successfully</div>
+    <div class="sub-text">Welcome! Your entry is now recorded in the system.</div>
+
+    <button class="btn" onclick="simulateExit()">Exit Now</button>
+  </div>
+
+  <script>
+    function simulateExit() {
+      alert("You have exited. Thank you!");
+      window.location.href = "bookings.html"; // Redirect to booking/home again
+    }
+  </script>
+</body>
+</html>

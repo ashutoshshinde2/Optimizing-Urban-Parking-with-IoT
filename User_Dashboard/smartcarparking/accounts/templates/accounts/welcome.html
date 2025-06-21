@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #0f172a, #1e293b);
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 1.2s ease-out forwards;
+    }
+
+    .fade-in.delay-1 { animation-delay: 0.2s; }
+    .fade-in.delay-2 { animation-delay: 0.4s; }
+    .fade-in.delay-3 { animation-delay: 0.6s; }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-out {
+      animation: fadeOut 0.8s ease-in forwards;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+    }
+
+    @keyframes drive {
+      0% {
+        left: -150px;
+        opacity: 0;
+        transform: scale(1) rotate(-10deg);
+      }
+      30% {
+        opacity: 1;
+        transform: scale(1.05) rotate(0deg);
+      }
+      100% {
+        left: 100%;
+        opacity: 0;
+        transform: scale(1.1) rotate(5deg);
+      }
+    }
+
+    .car-animate {
+      position: absolute;
+      bottom: 60px;
+      left: -150px;
+      width: 140px;
+      z-index: 10;
+      animation: drive 2s ease-in-out forwards;
+    }
+
+    .page-fade {
+      position: fixed;
+      inset: 0;
+      background: #0f172a;
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s ease-in-out;
+    }
+
+    .page-fade.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .bg-slider {
+      transition: background-image 1s ease-in-out;
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen flex items-center justify-center relative bg-slider px-4">
+
+  <!-- Background Layer -->
+  <div id="backgroundLayer" class="absolute inset-0 opacity-20 bg-no-repeat bg-cover z-0 transition-all duration-1000"></div>
+
+  <!-- Page Fade -->
+  <div id="pageFade" class="page-fade"></div>
+
+  <!-- Main Content -->
+  <div id="mainContent" class="text-center z-10 max-w-3xl w-full">
+    <h1 id="headline" class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold fade-in delay-1 mb-6 leading-tight px-2 sm:px-4">
+      THE SOLUTION TO<br>
+      <span id="highlightText" class="text-blue-400">YOUR PARKING PROBLEMS</span>
+    </h1>
+    <p id="description" class="text-gray-300 text-base sm:text-lg md:text-xl max-w-2xl mx-auto fade-in delay-2 mb-10 px-4">
+      The mobile parking app integrated with GPS to help you find nearby parking spots at a range of prices — instantly and intelligently.
+    </p>
+    <button id="startBtn" class="bg-blue-600 hover:bg-blue-700 px-6 sm:px-8 py-3 rounded-full text-base sm:text-lg font-medium transition shadow-lg fade-in delay-3">
+      Get Started
+    </button>
+  </div>
+
+  <!-- Car Image -->
+  <img id="car" src="https://www.clker.com/cliparts/m/f/a/X/U/8/car-icon-md.png" alt="Car" class="hidden car-animate"/>
+
+  <script>
+    const startBtn = document.getElementById('startBtn');
+    const car = document.getElementById('car');
+    const mainContent = document.getElementById('mainContent');
+    const pageFade = document.getElementById('pageFade');
+    const bgLayer = document.getElementById('backgroundLayer');
+    const headline = document.getElementById('headline');
+    const highlightText = document.getElementById('highlightText');
+    const description = document.getElementById('description');
+
+    const backgrounds = [
+      {
+        url: "https://wallpaper.forfun.com/fetch/ec/ecd85cdf8905fbd7444ca787e6ed98a0.jpeg?w=1470&r=0.5625",
+        textColor: "#ffffff",
+        highlight: "#60a5fa",
+        descColor: "#d1d5db"
+      },
+      {
+        url: "https://wallpaper.forfun.com/fetch/c3/c3922823b67affad5b9d05ba3f2d05ab.jpeg?w=1470&r=0.5625",
+        textColor: "#e0e7ff",
+        highlight: "#22d3ee",
+        descColor: "#cbd5e1"
+      },
+      {
+        url: "https://wallpaper.forfun.com/fetch/8a/8a5ac6831852253ec50ea19384a58ea1.jpeg?w=1470&r=0.5625",
+        textColor: "#facc15",
+        highlight: "#f87171",
+        descColor: "#fde68a"
+      }
+    ];
+
+    let currentIndex = 0;
+
+    function updateBackground() {
+      const current = backgrounds[currentIndex];
+
+      bgLayer.style.backgroundImage = `url('${current.url}')`;
+      headline.style.color = current.textColor;
+      highlightText.style.color = current.highlight;
+      description.style.color = current.descColor;
+
+      currentIndex = (currentIndex + 1) % backgrounds.length;
+    }
+
+    updateBackground();
+    setInterval(updateBackground, 3500);
+
+    startBtn.addEventListener('click', () => {
+      mainContent.classList.add('fade-out');
+      car.classList.remove('hidden');
+      car.classList.add('car-animate');
+      pageFade.classList.add('show');
+
+      setTimeout(() => {
+        window.location.href = "{% url 'signup' %}";
+      }, 2200);
+    });
+  </script>
+</body>
+</html>
