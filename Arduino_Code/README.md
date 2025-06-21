@@ -123,7 +123,7 @@ The ESP32 publishes parking data to the MQTT topic `esp32/parking` in the follow
   "slot3": 0,
   "gate": 1
 }
-
+```
 ### 📺 OLED Display Output Example
 
 The OLED display connected to the ESP32 shows real-time status of the parking slots and gate. Below is a sample output displayed on the screen:
