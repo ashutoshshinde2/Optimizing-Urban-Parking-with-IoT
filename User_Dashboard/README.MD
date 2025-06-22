@@ -6,6 +6,8 @@ This is a web-based **Smart Parking Slot Booking System** built with **Django**,
 
 ## 📁 Project Structure
 
+```bash
+
 smartcarparking/
 │
 ├── accounts/ # Django app
@@ -23,6 +25,8 @@ smartcarparking/
 ├── smartcarparking/ # Project settings
 ├── manage.py
 └── README.md
+
+```
 
 ## ⚙️ Technologies Used
 
@@ -52,16 +56,14 @@ smartcarparking/
 - MySQL Server + Workbench
 - Git
 
----
 
 ### ✅ Clone the Repository
 
 ```bash
 git clone https://github.com/your-username/smart-parking-system.git
 cd smart-parking-system
+```
 
-
----
 
 ## 📁 Repository Structure
 
